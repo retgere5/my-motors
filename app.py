@@ -1,6 +1,41 @@
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFProtect
+from flask_talisman import Talisman
+import os
 
 app = Flask(__name__)
+
+# Güvenlik ayarları
+app.config['SECRET_KEY'] = os.urandom(32)  # Rastgele güvenli anahtar
+csrf = CSRFProtect(app)  # CSRF koruması
+
+# Güvenli HTTP başlıkları
+csp = {
+    'default-src': "'self'",
+    'img-src': ['*', 'data:', 'https:'],
+    'script-src': [
+        "'self'",
+        'https://cdn.jsdelivr.net',
+        "'unsafe-inline'"  # Bootstrap için gerekli
+    ],
+    'style-src': [
+        "'self'",
+        'https://cdn.jsdelivr.net',
+        'https://fonts.googleapis.com',
+        "'unsafe-inline'"  # Bootstrap için gerekli
+    ],
+    'font-src': [
+        "'self'",
+        'https://fonts.gstatic.com',
+        'https://cdn.jsdelivr.net'
+    ]
+}
+
+Talisman(app,
+         content_security_policy=csp,
+         force_https=False,  # Production'da True yapılmalı
+         session_cookie_secure=False,  # Production'da True yapılmalı
+         session_cookie_http_only=True)
 
 # Örnek araba verileri
 cars = [
@@ -398,4 +433,9 @@ def car_detail(car_id):
     return 'Araba bulunamadı', 404
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    # Production'da debug=False olmalı
+    is_production = os.environ.get('FLASK_ENV') == 'production'
+    if is_production:
+        app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    else:
+        app.run(debug=True) 
