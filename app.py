@@ -421,9 +421,11 @@ cars = [
     }
 ]
 
+
 @app.route('/')
 def home():
     return render_template('index.html', cars=cars)
+
 
 @app.route('/car/<int:car_id>')
 def car_detail(car_id):
@@ -432,10 +434,12 @@ def car_detail(car_id):
         return render_template('car_detail.html', car=car)
     return 'Araba bulunamadı', 404
 
+
 if __name__ == '__main__':
     # Production'da debug=False olmalı
     is_production = os.environ.get('FLASK_ENV') == 'production'
     if is_production:
-        app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+        app.run(debug=False, host='0.0.0.0',
+                port=int(os.environ.get('PORT', 5000)))
     else:
-        app.run(debug=True) 
+        app.run(debug=True)
