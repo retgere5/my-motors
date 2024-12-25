@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ car.name }} - MY MOTORS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        :root[data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --text-color: #fff;
+            --card-bg: #151515;
+            --card-border: rgba(212, 175, 55, 0.2);
+            --accent-color: #d4af37;
+            --muted-text: rgba(255, 255, 255, 0.6);
+            --navbar-bg: rgba(0, 0, 0, 0.95);
+            --info-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f8f9fa;
+            --text-color: #000;
+            --card-bg: #fff;
+            --card-border: rgba(0, 0, 0, 0.1);
+            --accent-color: #8b7229;
+            --muted-text: rgba(0, 0, 0, 0.6);
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --info-bg: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar {
+            background: var(--navbar-bg);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--accent-color) !important;
+            letter-spacing: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .navbar-brand span {
+            font-weight: 700;
+        }
+        
+        .car-detail-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .detail-card {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            border: 1px solid var(--card-border);
+        }
+        
+        .price {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .spec-item {
+            padding: 20px;
+            background: var(--info-bg);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+        }
+        
+        .back-button {
+            text-decoration: none;
+            color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            color: var(--text-color);
+            transform: translateX(-5px);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-item {
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: var(--info-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .feature-item:hover {
+            background: var(--card-border);
+            transform: translateX(5px);
+        }
+
+        .feature-item i {
+            margin-right: 15px;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            padding: 20px;
+            background: var(--info-bg);
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        strong {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar mb-5">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="/">
+                <span>MY</span> MOTORS
+            </a>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="bi bi-moon-fill me-2"></i>
+                <span class="theme-text">Tema Değiştir</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="bi bi-arrow-left me-2"></i> Galeriye Dön
+        </a>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <img src="{{ car.image }}" class="car-detail-image mb-4" alt="{{ car.name }}">
+                
+                <!-- Motor Detayları -->
+                <div class="card detail-card">
+                    <div class="card-body">
+                        <h4 class="section-title">Motor Özellikleri</h4>
+                        <div class="info-grid">
+                            {% if car.engine.type %}
+                            <div class="info-item">
+                                <div class="info-label">Motor Tipi</div>
+                                <div class="info-value">{{ car.engine.type }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if car.engine.displacement %}
+                            <div class="info-item">
+                                <div class="info-label">Motor Hacmi</div>
+                                <div class="info-value">{{ car.engine.displacement }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if car.engine.horsepower %}
+                            <div class="info-item">
+                                <div class="info-label">Beygir Gücü</div>
+                                <div class="info-value">{{ car.engine.horsepower }} HP</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if car.engine.torque %}
+                            <div class="info-item">
+                                <div class="info-label">Tork</div>
+                                <div class="info-value">{{ car.engine.torque }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if car.engine.cylinders %}
+                            <div class="info-item">
+                                <div class="info-label">Silindir Sayısı</div>
+                                <div class="info-value">{{ car.engine.cylinders }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performans -->
+                <div class="card detail-card">
+                    <div class="card-body">
+                        <h4 class="section-title">Performans</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">0-100 km/s</div>
+                                <div class="info-value">{{ car.performance.acceleration }} saniye</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Maksimum Hız</div>
+                                <div class="info-value">{{ car.performance.top_speed }} km/s</div>
+                            </div>
+                            {% if car.performance.fuel_consumption %}
+                            <div class="info-item">
+                                <div class="info-label">Yakıt Tüketimi</div>
+                                <div class="info-value">{{ car.performance.fuel_consumption }}</div>
+                            </div>
+                            {% endif %}
+                            {% if car.performance.emission %}
+                            <div class="info-item">
+                                <div class="info-label">CO2 Emisyonu</div>
+                                <div class="info-value">{{ car.performance.emission }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boyutlar -->
+                <div class="card detail-card">
+                    <div class="card-body">
+                        <h4 class="section-title">Boyutlar</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Uzunluk</div>
+                                <div class="info-value">{{ car.dimensions.length }}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Genişlik</div>
+                                <div class="info-value">{{ car.dimensions.width }}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Yükseklik</div>
+                                <div class="info-value">{{ car.dimensions.height }}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Aks Mesafesi</div>
+                                <div class="info-value">{{ car.dimensions.wheelbase }}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Ağırlık</div>
+                                <div class="info-value">{{ car.dimensions.weight }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card detail-card">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ car.name }}</h1>
+                        <p class="price mb-4">{{ car.price }}</p>
+                        <div class="specs">
+                            <div class="spec-item">
+                                <strong>Model Yılı:</strong> {{ car.year }}
+                            </div>
+                            <div class="spec-item">
+                                <strong>Renk:</strong> {{ car.color }}
+                            </div>
+                            <div class="spec-item">
+                                <strong>Şanzıman:</strong> {{ car.transmission }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Özellikler -->
+                <div class="card detail-card">
+                    <div class="card-body">
+                        <h4 class="section-title">Öne Çıkan Özellikler</h4>
+                        <ul class="feature-list">
+                            {% for feature in car.features %}
+                            <li class="feature-item">
+                                <i class="bi bi-gem"></i>
+                                {{ feature }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (newTheme === 'dark') {
+                themeIcon.className = 'bi bi-moon-fill me-2';
+            } else {
+                themeIcon.className = 'bi bi-sun-fill me-2';
+            }
+
+            // Tema tercihini localStorage'a kaydet
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Sayfa yüklendiğinde kaydedilmiş tema tercihini kontrol et
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('.theme-toggle i');
+                themeIcon.className = savedTheme === 'dark' ? 'bi bi-moon-fill me-2' : 'bi bi-sun-fill me-2';
+            }
+        });
+    </script>
+</body>
+</html> 

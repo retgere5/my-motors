@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY MOTORS - Prestij ve Lüks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        :root[data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --text-color: #fff;
+            --card-bg: #151515;
+            --card-border: rgba(212, 175, 55, 0.2);
+            --accent-color: #d4af37;
+            --muted-text: rgba(255, 255, 255, 0.6);
+            --navbar-bg: rgba(0, 0, 0, 0.95);
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f8f9fa;
+            --text-color: #000;
+            --card-bg: #fff;
+            --card-border: rgba(0, 0, 0, 0.1);
+            --accent-color: #8b7229;
+            --muted-text: rgba(0, 0, 0, 0.6);
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar {
+            background: var(--navbar-bg);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--accent-color) !important;
+            letter-spacing: 2px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .navbar-brand span {
+            font-weight: 700;
+        }
+        
+        .car-card {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+        
+        .car-image {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            filter: brightness(0.9);
+            transition: filter 0.3s ease;
+        }
+        
+        .car-card:hover .car-image {
+            filter: brightness(1.1);
+        }
+        
+        .card-body {
+            background: var(--card-bg);
+            padding: 25px;
+            border-top: 1px solid var(--card-border);
+        }
+        
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .text-muted {
+            color: var(--muted-text) !important;
+        }
+
+        .header-section {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 50px;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .car-details {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+            margin-bottom: 15px;
+        }
+
+        .view-details {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .view-details:hover {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="/">
+                <span>MY</span> MOTORS
+            </a>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="bi bi-moon-fill me-2"></i>
+                <span class="theme-text">Tema Değiştir</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="header-section">
+        <div class="container">
+            <h1 class="header-title">Lüks ve Prestijin Adresi</h1>
+            <p class="header-subtitle">Dünyanın en prestijli otomobillerini sizin için bir araya getiriyoruz. Mükemmellik standartlarımızla tanışın.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for car in cars %}
+            <div class="col-md-4">
+                <div class="car-card">
+                    <img src="{{ car.image }}" class="car-image" alt="{{ car.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.name }}</h5>
+                        <div class="car-details">{{ car.details }}</div>
+                        <p class="text-muted mb-2">{{ car.year }}</p>
+                        <p class="price mb-3">{{ car.price }}</p>
+                        <a href="/car/{{ car.id }}" class="view-details">Detayları İncele →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (newTheme === 'dark') {
+                themeIcon.className = 'bi bi-moon-fill me-2';
+            } else {
+                themeIcon.className = 'bi bi-sun-fill me-2';
+            }
+
+            // Tema tercihini localStorage'a kaydet
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Sayfa yüklendiğinde kaydedilmiş tema tercihini kontrol et
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('.theme-toggle i');
+                themeIcon.className = savedTheme === 'dark' ? 'bi bi-moon-fill me-2' : 'bi bi-sun-fill me-2';
+            }
+        });
+    </script>
+</body>
+</html> 
